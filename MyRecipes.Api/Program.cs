@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyRecipes.Api.Data;
+using MyRecipes.Api.Repositories;
+using MyRecipes.Api.Repositories.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MyRecipesDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyRecipesConnection"))
     );
+
+builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
 
 var app = builder.Build();
 
