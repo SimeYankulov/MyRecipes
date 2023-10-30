@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using MyRecipes.Api.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,11 +10,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<MyRecipesDBContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MyRecipesConnection"))
+    );
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
-{
+{ 
     app.UseSwagger();
     app.UseSwaggerUI();
 }
