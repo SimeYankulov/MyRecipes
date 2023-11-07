@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipes.Web", "MyRecipes.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipes.Api", "MyRecipes.Api\MyRecipes.Api.csproj", "{C48CC279-32A2-476B-849B-31F7FAC7F86E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyRecipes.Models", "MyRecipes.Models\MyRecipes.Models.csproj", "{D73CDD3D-FD2A-4458-8E9A-003BE227F0EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipes.Models", "MyRecipes.Models\MyRecipes.Models.csproj", "{D73CDD3D-FD2A-4458-8E9A-003BE227F0EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

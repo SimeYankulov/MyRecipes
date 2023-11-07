@@ -25,7 +25,7 @@ namespace MyRecipes.Api.Controllers
                 var recipes = await this.recipeRepository.GetItems();
                 var recipeCategories = await this.recipeRepository.GetCategories();
 
-                if(recipes == null || recipeCategories == null)
+                if (recipes == null || recipeCategories == null)
                 {
                     return NotFound();
                 }
@@ -34,6 +34,35 @@ namespace MyRecipes.Api.Controllers
                     var recipeDtos = recipes.ConverToDto(recipeCategories);
 
                     return Ok(recipeDtos);
+                }
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                                    "Error retriving data from database");
+            }
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<RecipeDto>> GetItem(int id)
+        {
+            try
+            {
+                var recipe = await this.recipeRepository.GetItem(id);
+                
+
+                if(recipe == null)
+                {
+                    return BadRequest();
+                }
+                else
+                {
+                    var recipeCategory = await this.recipeRepository.GetCategory(recipe.CategoryId);
+
+                    var recipeDto = recipe.ConverToDto(recipeCategory);
+                        
+                    return Ok(recipeDto);
                 }
             }
             catch (Exception)

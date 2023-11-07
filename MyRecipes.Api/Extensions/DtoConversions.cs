@@ -22,5 +22,21 @@ namespace MyRecipes.Api.Extensions
                     
                     }).ToList();
         }
+
+        public static RecipeDto ConverToDto(this Recipe recipe,
+                                                    RecipeCategory recipeCategory)
+        {
+            return new RecipeDto
+            {
+                Id = recipe.Id,
+                Title = recipe.Title,
+                Description = recipe.Description,
+                ImageUrl = recipe.ImageUrl,
+                CategoryId = recipeCategory.Id,
+                Category = recipeCategory.Name
+            };
+        }
+
+
     }
 }

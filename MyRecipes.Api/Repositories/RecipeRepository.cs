@@ -20,14 +20,18 @@ namespace MyRecipes.Api.Repositories
             return categories;
         }
 
-        public Task<RecipeCategory> GetCategory(int id)
+        public async Task<RecipeCategory> GetCategory(int id)
         {
-            throw new NotImplementedException();
+            var category = await this.myRecipesDBContext.RecipeCategories.SingleOrDefaultAsync(c => c.Id == id);
+
+            return category;
         }
 
-        public Task<Recipe> GetItem(int id)
+        public async Task<Recipe> GetItem(int id)
         {
-            throw new NotImplementedException();
+            var recipe = await this.myRecipesDBContext.Recipes.FindAsync(id);
+
+            return recipe;
         }
 
         public async Task<IEnumerable<Recipe>> GetItems()
