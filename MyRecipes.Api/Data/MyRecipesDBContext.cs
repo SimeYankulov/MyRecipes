@@ -165,13 +165,13 @@ namespace MyRecipes.Api.Data
             });
 
             //Bookmark List of users
-            modelBuilder.Entity<Bookmark>().HasData(new Bookmark
+            modelBuilder.Entity<RecipeBook>().HasData(new RecipeBook
             {
                 Id = 1,
                 UserId = 1
 
             });
-            modelBuilder.Entity<Bookmark>().HasData(new Bookmark
+            modelBuilder.Entity<RecipeBook>().HasData(new RecipeBook
             {
                 Id = 2,
                 UserId = 2
@@ -195,8 +195,8 @@ namespace MyRecipes.Api.Data
             });
         }
 
-        public DbSet<Bookmark> Bookmarks { get; set; }
-        public DbSet<BookmarkItem> BookmarkItems { get; set; }
+        public DbSet<RecipeBook> RecipeBooks { get; set; }
+        public DbSet<RecipeBookItem> RecipeBookItems { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<RecipeCategory> RecipeCategories { get; set; }
         public DbSet<User> Users { get; set; } 

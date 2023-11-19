@@ -13,21 +13,21 @@ namespace MyRecipes.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "BookmarkItems",
+                name: "RecipeBookItems",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BookmarkId = table.Column<int>(type: "int", nullable: false),
+                    RecipeBookId = table.Column<int>(type: "int", nullable: false),
                     RecipeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookmarkItems", x => x.Id);
+                    table.PrimaryKey("PK_RecipeBookItems", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bookmarks",
+                name: "RecipeBooks",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -36,7 +36,7 @@ namespace MyRecipes.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bookmarks", x => x.Id);
+                    table.PrimaryKey("PK_RecipeBooks", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -82,7 +82,7 @@ namespace MyRecipes.Api.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Bookmarks",
+                table: "RecipeBooks",
                 columns: new[] { "Id", "UserId" },
                 values: new object[,]
                 {
@@ -133,10 +133,10 @@ namespace MyRecipes.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BookmarkItems");
+                name: "RecipeBookItems");
 
             migrationBuilder.DropTable(
-                name: "Bookmarks");
+                name: "RecipeBooks");
 
             migrationBuilder.DropTable(
                 name: "RecipeCategories");

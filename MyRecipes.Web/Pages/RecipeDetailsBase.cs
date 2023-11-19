@@ -11,6 +11,11 @@ namespace MyRecipes.Web.Pages
 
         [Inject]
         public IRecipeService RecipeService{ get; set; }
+        [Inject]
+        public IRecipeBookService RecipeBookService { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }    
         public RecipeDto Recipe{ get; set; }
 
         public string ErrorMessage { get; set; }
@@ -24,6 +29,19 @@ namespace MyRecipes.Web.Pages
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
+            }
+        }
+
+        protected async Task AddToRecipeBook_Click(RecipeBookItemToAddDto item)
+        {
+            try
+            {
+                var recipeBookItemDto = await RecipeBookService.AddItem(item);
+                NavigationManager.NavigateTo("/RecipeBook");
+            }
+            catch (Exception)
+            {
+
             }
         }
     }

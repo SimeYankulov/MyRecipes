@@ -21,53 +21,6 @@ namespace MyRecipes.Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MyRecipes.Api.Entities.Bookmark", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Bookmarks");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            UserId = 2
-                        });
-                });
-
-            modelBuilder.Entity("MyRecipes.Api.Entities.BookmarkItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BookmarkId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BookmarkItems");
-                });
-
             modelBuilder.Entity("MyRecipes.Api.Entities.Recipe", b =>
                 {
                     b.Property<int>("Id")
@@ -192,6 +145,53 @@ namespace MyRecipes.Api.Migrations
                             ImageUrl = "/Images/Pasta/One-pot-tomato-orzo.png",
                             Title = "Cacio e pepe"
                         });
+                });
+
+            modelBuilder.Entity("MyRecipes.Api.Entities.RecipeBook", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RecipeBooks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            UserId = 2
+                        });
+                });
+
+            modelBuilder.Entity("MyRecipes.Api.Entities.RecipeBookItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("RecipeBookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RecipeBookItems");
                 });
 
             modelBuilder.Entity("MyRecipes.Api.Entities.RecipeCategory", b =>

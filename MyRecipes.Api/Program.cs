@@ -18,6 +18,8 @@ builder.Services.AddDbContext<MyRecipesDBContext>(options =>
     );
 
 builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
+builder.Services.AddScoped<IRecipeBookRepository, RecipeBookRepository>();
+
 
 var app = builder.Build();
 

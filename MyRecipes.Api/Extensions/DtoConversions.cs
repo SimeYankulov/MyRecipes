@@ -36,7 +36,40 @@ namespace MyRecipes.Api.Extensions
                 Category = recipeCategory.Name
             };
         }
+        
+        public static IEnumerable<RecipeBookItemDto> ConverToDto(this IEnumerable<RecipeBookItem> recipeBookItems,
+                                                                   IEnumerable<Recipe> recipes)
+        {
+            return (from recipeBookItem in recipeBookItems
+                    join recipe in recipes
+                    on recipeBookItem.RecipeId equals recipe.Id
+                    select new RecipeBookItemDto
+                    {
+                    
+                        Id = recipeBookItem.Id,
+                        RecipeId = recipeBookItem.RecipeId,
+                        RecipeTitle = recipe.Title,
+                        RecipeDescription = recipe.Description,
+                        RecipeImageUrl = recipe.ImageUrl,
+                        RecipeBookId = recipeBookItem.RecipeBookId
+                    
+                    }).ToList();
+        }
 
+        public static RecipeBookItemDto ConverToDto(this RecipeBookItem recipeBookItem,
+                                                           Recipe recipe)
+        {
+            return new RecipeBookItemDto
+            {
+                Id = recipeBookItem.Id,
+                RecipeId = recipeBookItem.RecipeId,
+                RecipeTitle = recipe.Title,
+                RecipeDescription = recipe.Description,
+                RecipeImageUrl = recipe.ImageUrl,
+                RecipeBookId = recipeBookItem.RecipeBookId
+
+            };
+        }
 
     }
 }
