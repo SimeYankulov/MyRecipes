@@ -42,7 +42,26 @@ namespace MyRecipes.Web.Services
             }
         }
 
-        public async Task<IEnumerable<RecipeBookItemDto>> GetItems(int userId)
+        public async Task<RecipeBookItemDto> DeleteItem(int id)
+        {
+            try
+            {
+                var response = await httpClient.DeleteAsync($"api/RecipeBook/{id}");
+
+                if(response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<RecipeBookItemDto>(); 
+                }
+                return default;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<List<RecipeBookItemDto>> GetItems(int userId)
         {
             try
             {
@@ -52,9 +71,9 @@ namespace MyRecipes.Web.Services
                 {
                     if(response.StatusCode == System.Net.HttpStatusCode.NoContent)
                     {
-                        return Enumerable.Empty<RecipeBookItemDto>();
+                        return Enumerable.Empty<RecipeBookItemDto>().ToList();
                     }
-                    return await response.Content.ReadFromJsonAsync<IEnumerable<RecipeBookItemDto>>();
+                    return await response.Content.ReadFromJsonAsync<List<RecipeBookItemDto>>();
                 }
                 else
                 {

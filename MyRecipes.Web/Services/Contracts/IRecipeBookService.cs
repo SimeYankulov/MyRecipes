@@ -4,8 +4,8 @@ namespace MyRecipes.Web.Services.Contracts
 {
     public interface IRecipeBookService   
     {
-        Task<IEnumerable<RecipeBookItemDto>> GetItems(int userId);
+        Task<List<RecipeBookItemDto>> GetItems(int userId);
         Task<RecipeBookItemDto> AddItem(RecipeBookItemToAddDto item);
-
+        Task<RecipeBookItemDto> DeleteItem(int id);
     }
 }

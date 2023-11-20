@@ -47,9 +47,16 @@ namespace MyRecipes.Api.Repositories
             return null;
         }
 
-        public Task<RecipeBookItem> DeleteItem(int id)
+        public async Task<RecipeBookItem> DeleteItem(int id)
         {
-            throw new NotImplementedException();
+            var item = await this.myRecipesDBContext.RecipeBookItems.FindAsync(id);
+            
+            if(item != null)
+            {
+                this.myRecipesDBContext.RecipeBookItems.Remove(item);
+                await this.myRecipesDBContext.SaveChangesAsync();
+            }
+            return item;
         }
 
         public async Task<RecipeBookItem> GetItem(int id)

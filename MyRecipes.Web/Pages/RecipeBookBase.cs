@@ -9,7 +9,7 @@ namespace MyRecipes.Web.Pages
         [Inject]
         public IRecipeBookService RecipeBookService { get; set; }
         
-        public IEnumerable<RecipeBookItemDto> items { get; set; }
+        public List<RecipeBookItemDto> items { get; set; }
         public String ErrorMessage { get; set; }
 
 
@@ -24,6 +24,24 @@ namespace MyRecipes.Web.Pages
 
                 ErrorMessage = ex.Message;
             }
+        }
+
+        protected async Task DeleteRecipeBookItem_Click(int id)
+        {
+            var item = await RecipeBookService.DeleteItem(id);
+
+            RemoveItem(id);   
+        }
+        private RecipeBookItemDto GetRecipeBookItem(int id)
+        {
+            return items.FirstOrDefault(i => i.Id == id);
+        }
+        private void RemoveItem(int id)
+        {
+            var item = GetRecipeBookItem(id);
+
+            items.Remove(item);
+
         }
     }
 }

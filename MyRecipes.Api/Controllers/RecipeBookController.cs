@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyRecipes.Api.Data;
 using MyRecipes.Api.Extensions;
 using MyRecipes.Api.Repositories.Contracts;
 using MyRecipes.Models.Dtos;
@@ -101,6 +102,35 @@ namespace MyRecipes.Api.Controllers
 
                 return CreatedAtAction(nameof(GetItem), new {id = newRecipeBookItemDto.Id}, newRecipeBookItemDto);
            
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult<RecipeBookItemDto>> DeleteItem(int id)
+        {
+            try
+            {
+                var recipeBookItem = await this.recipeBookRepository.DeleteItem(id);
+
+                if(recipeBookItem == null)
+                {
+                    return NotFound();
+                }
+                
+                var recipe = await this.recipeRepository.GetItem(recipeBookItem.RecipeId);
+
+                if(recipe == null)
+                {
+                    return NotFound();
+                }
+
+                var recipeBookItemDto = recipeBookItem.ConverToDto(recipe);
+
+                return Ok(recipeBookItemDto);
+
             }
             catch (Exception ex)
             {

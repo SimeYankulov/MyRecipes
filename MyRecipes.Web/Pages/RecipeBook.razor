@@ -10,24 +10,36 @@ else if(ErrorMessage != null){
 else
 {
     <h3 class="mb-5">Recipe Book</h3>
-    <div class="row mb-5">
-        <div class="col-md-9">
-            @foreach(var item in items)
-            {
-                <div class="row mb-4">
-                    <div class="col-md-4">
-                        <img src="@item.RecipeImageUrl" width="300" class="img-thumbnail">
+    @if(items.Count() > 0)
+    {
+        <div class="row mb-5">
+            <div class="col-md-9">
+                @foreach (var item in items)
+                {
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <img src="@item.RecipeImageUrl" width="300" class="img-thumbnail">
+                        </div>
+                        <div class="col-md-8">
+                            <h5>@item.RecipeTitle</h5>
+                            <div class="mb-4">@item.RecipeDescription</div>
+                            <div>
+                                <button @onclick="(() => DeleteRecipeBookItem_Click(item.Id))"
+                            class="btn btn-danger sm">
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <h5>@item.RecipeTitle</h5>
-                        <div class="mb-4">@item.RecipeDescription</div>
-
-                    </div>
-                </div>
-            }
+                }
+            </div>
+            <div class="col-md-3">
+                <h5></h5>
+            </div>
         </div>
-        <div class="col-md-3">
-            <h5></h5>
-        </div>
-    </div>
+    }
+    else
+    {
+        <h4>There are currently no recipes saved.</h4>
+    }
 }
