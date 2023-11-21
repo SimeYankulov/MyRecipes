@@ -1,0 +1,28 @@
+﻿@implements IDisposable
+@using MyRecipes.Web.Services.Contracts;
+@inject IRecipeBookService recipeBookService;
+
+<a href="RecipeBook" class="btn btn-info">
+    <i class="oi oi-clipboard"></i>&nbsp;Saved
+    <span class="badge bg-dark">@recipeBookItemCount</span>
+</a>
+
+@code {
+    private int recipeBookItemCount = 0;
+
+    protected override void OnInitialized()
+    {
+        recipeBookService.OnRecipeBookChanged += RecipeBookChanged;
+    }
+
+    protected void RecipeBookChanged(int totalQty)
+    {
+        recipeBookItemCount = totalQty;
+        StateHasChanged();
+    }
+
+    void IDisposable.Dispose()
+    {
+        recipeBookService.OnRecipeBookChanged -= RecipeBookChanged;
+    }
+}

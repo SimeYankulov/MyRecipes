@@ -9,11 +9,33 @@ namespace MyRecipes.Web.Pages
         [Inject]
         public IRecipeService RecipeService { get; set; }
 
+        [Inject]
+        public IRecipeBookService RecipeBookService { get; set; }
+
         public IEnumerable<RecipeDto> Recipes { get; set; }
+
+        public String ErrorMessage { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            Recipes = await RecipeService.GetItems();
+            try
+            {
+                
+                Recipes = await RecipeService.GetItems();
+
+                var recipeBookItems = await RecipeBookService.GetItems(HardCoded.UserId);
+
+                var totalQty = recipeBookItems.Count();
+
+                RecipeBookService.RaiseEventOnRecipeBookChanged(totalQty);
+
+
+            }
+            catch (Exception ex)
+            {
+
+                ErrorMessage = ex.Message;
+            }
         }
 
         protected IOrderedEnumerable<IGrouping<int, RecipeDto>> GetGroupedRecipesByCategory()

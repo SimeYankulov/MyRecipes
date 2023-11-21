@@ -8,10 +8,13 @@ namespace MyRecipes.Web.Services
     {
         private readonly HttpClient httpClient;
 
+        public event Action<int> OnRecipeBookChanged;
         public RecipeBookService(HttpClient httpClient)
         {
             this.httpClient = httpClient;
         }
+
+
         public async Task<RecipeBookItemDto> AddItem(RecipeBookItemToAddDto item)
         {
             try
@@ -86,6 +89,14 @@ namespace MyRecipes.Web.Services
             {
 
                 throw;
+            }
+        }
+
+        public void RaiseEventOnRecipeBookChanged(int qty)
+        {
+            if(OnRecipeBookChanged != null)
+            {
+                OnRecipeBookChanged.Invoke(qty);
             }
         }
     }

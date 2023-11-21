@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MyRecipes.Models.Dtos;
+using MyRecipes.Web.Services;
 using MyRecipes.Web.Services.Contracts;
 
 namespace MyRecipes.Web.Pages
@@ -18,6 +19,11 @@ namespace MyRecipes.Web.Pages
             try
             {
                 items = await RecipeBookService.GetItems(HardCoded.UserId);
+
+                var count = items.Count();
+
+                RecipeBookService.RaiseEventOnRecipeBookChanged(count);
+
             }
             catch (Exception ex)
             {
@@ -30,7 +36,9 @@ namespace MyRecipes.Web.Pages
         {
             var item = await RecipeBookService.DeleteItem(id);
 
-            RemoveItem(id);   
+            RemoveItem(id);
+
+            RecipeBookService.RaiseEventOnRecipeBookChanged(items.Count);
         }
         private RecipeBookItemDto GetRecipeBookItem(int id)
         {

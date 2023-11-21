@@ -37,7 +37,9 @@ namespace MyRecipes.Web.Pages
             try
             {
                 var recipeBookItemDto = await RecipeBookService.AddItem(item);
+
                 NavigationManager.NavigateTo("/RecipeBook");
+
             }
             catch (Exception)
             {
