@@ -72,5 +72,45 @@ namespace MyRecipes.Api.Controllers
                                     "Error retriving data from database");
             }
         }
+
+        [HttpGet]
+        [Route(nameof(GetRecipeCategories))]
+        public async Task<ActionResult<IEnumerable<RecipeCategoryDto>>> GetRecipeCategories()
+        {
+            try
+            {
+                var recipeCategories = await recipeRepository.GetCategories();
+
+                var recipeCategoryDtos = recipeCategories.ConvertToDto();
+
+                return Ok(recipeCategoryDtos);
+
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                                  "Error retriving data from database");
+            }
+        }
+        [HttpGet]
+        [Route("{categoryId}/GetItemsByCategory")]
+        public async Task<ActionResult<IEnumerable<RecipeDto>>> GetItemsByCategory(int categoryId)
+        {
+            try
+            {
+                var recipes = await recipeRepository.GetItemsByCategory(categoryId);
+                var recipeCategories = await recipeRepository.GetCategories();
+                var recipeDtos = recipes.ConverToDto(recipeCategories);
+
+                return Ok(recipeDtos);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                                                 "Error retriving data from database");
+            }
+
+        }
     }
 }

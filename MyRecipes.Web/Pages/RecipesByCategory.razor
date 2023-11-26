@@ -1,0 +1,21 @@
+﻿@page "/RecipesByCategory/{CategoryId:int}"
+@inherits RecipesByCategoryBase
+
+@if(Recipes == null && ErrorMessage == null)
+{
+    <DisplaySpinner/>
+}
+else if(ErrorMessage != null)
+{
+    <DisplayError ErrorMessage="@ErrorMessage"/>
+}
+else
+{
+    <h3>Recipes (@CategoryName)</h3>
+    @if(Recipes.Count() > 0)
+    {
+        <div class="row mt-3">
+        <DisplayRecipes Recipes="@Recipes.Take(4)"></DisplayRecipes>
+        </div>
+    }
+}

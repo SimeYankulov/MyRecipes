@@ -5,6 +5,16 @@ namespace MyRecipes.Api.Extensions
 {
     public static class DtoConversions
     {
+        public static IEnumerable<RecipeCategoryDto> ConvertToDto(this IEnumerable<RecipeCategory> recipeCategories)
+        {
+            return (from recipeCategory in recipeCategories
+                    select new RecipeCategoryDto
+                    {
+                        Id = recipeCategory.Id,
+                        Name = recipeCategory.Name
+
+                    }).ToList();
+        }
         public static IEnumerable<RecipeDto> ConverToDto(this IEnumerable<Recipe> recipes, 
                                                            IEnumerable<RecipeCategory> recipeCategories)
         {

@@ -67,5 +67,59 @@ namespace MyRecipes.Web.Services
                 throw;
             }
         }
+
+        public async Task<IEnumerable<RecipeDto>> GetItemsByCategory(int categoryId)
+        {
+            try
+            {
+                var response = await httpClient.GetAsync($"api/Recipe/{categoryId}/GetItemsByCategory");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        return Enumerable.Empty<RecipeDto>();
+                    }
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<RecipeDto>>();
+                }
+                else
+                {
+                    var message = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status code: {response.StatusCode} message: {message}");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<RecipeCategoryDto>> GetRecipeCategories()
+        {
+            try
+            {
+                var response = await httpClient.GetAsync("api/Recipe/GetRecipeCategories");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    if(response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        return Enumerable.Empty<RecipeCategoryDto>();
+                    }
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<RecipeCategoryDto>>();
+                }
+                else
+                {
+                    var message = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status code: {response.StatusCode} message: {message}");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

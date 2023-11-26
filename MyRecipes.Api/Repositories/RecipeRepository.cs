@@ -42,5 +42,14 @@ namespace MyRecipes.Api.Repositories
             return recipes;
             
         }
+
+        public async Task<IEnumerable<Recipe>> GetItemsByCategory(int id)
+        {
+            var recipes = await (from recipe in myRecipesDBContext.Recipes
+                                 where recipe.CategoryId == id
+                                 select recipe).ToListAsync();
+
+            return recipes;
+        }
     }
 }

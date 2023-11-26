@@ -8,6 +8,7 @@ namespace MyRecipes.Api.Repositories.Contracts
         Task<IEnumerable<RecipeCategory>> GetCategories();
         Task<Recipe> GetItem(int id);
         Task<RecipeCategory> GetCategory(int id);
+        Task<IEnumerable<Recipe>> GetItemsByCategory(int id);
 
     }
 }
