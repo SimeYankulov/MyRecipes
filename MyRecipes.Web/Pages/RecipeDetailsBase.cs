@@ -15,16 +15,26 @@ namespace MyRecipes.Web.Pages
         public IRecipeBookService RecipeBookService { get; set; }
 
         [Inject]
+        public IManageRecipesLocalStorageService manageRecipeLocalService { get; set; }
+
+        [Inject]
+        public IManageRecipeBookItemsLocalStorageService manageRecipeBookItemsLocalService { get; set; }
+
+        [Inject]
         public NavigationManager NavigationManager { get; set; }    
         public RecipeDto Recipe{ get; set; }
 
         public string ErrorMessage { get; set; }
 
+        private List<RecipeBookItemDto> RecipeBookItems{ get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             try
             {
-                Recipe = await RecipeService.GetItem(Id);
+                RecipeBookItems = await manageRecipeBookItemsLocalService.GetCollectionn();
+                Recipe = await GetRecipeById(Id);
+                    //RecipeService.GetItem(Id);
             }
             catch (Exception ex)
             {
@@ -38,6 +48,12 @@ namespace MyRecipes.Web.Pages
             {
                 var recipeBookItemDto = await RecipeBookService.AddItem(item);
 
+                if(recipeBookItemDto != null)
+                {
+                    RecipeBookItems.Add(recipeBookItemDto);
+                    await manageRecipeBookItemsLocalService.SaveCollection(RecipeBookItems);
+                }
+
                 NavigationManager.NavigateTo("/RecipeBook");
 
             }
@@ -45,6 +61,18 @@ namespace MyRecipes.Web.Pages
             {
 
             }
+        }
+
+        private async Task<RecipeDto> GetRecipeById(int id)
+        {
+            var recipeDtos = await manageRecipeLocalService.GetCollection();
+
+            if(recipeDtos != null)
+            {
+                return recipeDtos.SingleOrDefault(p => p.Id == id);
+            }
+
+            return null;
         }
     }
 }

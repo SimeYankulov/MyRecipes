@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyRecipes.Api.Entities
 {
@@ -9,5 +9,8 @@ namespace MyRecipes.Api.Entities
         public string Description { get; set; }
         public string ImageUrl { get; set; }
         public int CategoryId { get; set; }
+
+        [ForeignKey("CategoryId")]
+        public RecipeCategory RecipeCategory { get; set; }
     }
 }

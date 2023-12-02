@@ -12,6 +12,12 @@ namespace MyRecipes.Web.Pages
         [Inject]
         public IRecipeBookService RecipeBookService { get; set; }
 
+        [Inject]
+        public IManageRecipesLocalStorageService manageRecipeLocalService { get; set; }
+
+        [Inject]
+        public IManageRecipeBookItemsLocalStorageService manageRecipeBookItemsLocalService { get; set; }
+
         public IEnumerable<RecipeDto> Recipes { get; set; }
 
         public String ErrorMessage { get; set; }
@@ -20,10 +26,12 @@ namespace MyRecipes.Web.Pages
         {
             try
             {
-                
-                Recipes = await RecipeService.GetItems();
+                await ClearLocalStorage();
 
-                var recipeBookItems = await RecipeBookService.GetItems(HardCoded.UserId);
+                Recipes = await manageRecipeLocalService.GetCollection();
+
+                var recipeBookItems = await manageRecipeBookItemsLocalService.GetCollectionn(); 
+                    //RecipeBookService.GetItems(HardCoded.UserId);
 
                 var totalQty = recipeBookItems.Count();
 
@@ -49,6 +57,14 @@ namespace MyRecipes.Web.Pages
         protected string GetCategoryName(IGrouping<int, RecipeDto> groupedRecipeDtos)
         {
             return groupedRecipeDtos.FirstOrDefault(rg => rg.CategoryId == groupedRecipeDtos.Key).Category;
+        }
+
+        private  async Task ClearLocalStorage()
+        {
+            await manageRecipeLocalService.RemoveCollection();
+            await manageRecipeBookItemsLocalService.RemoveCollectionn();
+
+
         }
     }
 }

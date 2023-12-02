@@ -15,26 +15,22 @@ namespace MyRecipes.Api.Extensions
 
                     }).ToList();
         }
-        public static IEnumerable<RecipeDto> ConverToDto(this IEnumerable<Recipe> recipes, 
-                                                           IEnumerable<RecipeCategory> recipeCategories)
+        public static IEnumerable<RecipeDto> ConverToDto(this IEnumerable<Recipe> recipes)
         {
             return (from recipe in recipes
-                    join recipeCategory in recipeCategories
-                    on recipe.CategoryId equals recipeCategory.Id
                     select new RecipeDto
                     {
                         Id = recipe.Id,
                         Title = recipe.Title,
                         Description = recipe.Description,
                         ImageUrl = recipe.ImageUrl,
-                        CategoryId = recipeCategory.Id,
-                        Category = recipeCategory.Name
+                        CategoryId = recipe.RecipeCategory.Id,
+                        Category = recipe.RecipeCategory.Name
                     
                     }).ToList();
         }
 
-        public static RecipeDto ConverToDto(this Recipe recipe,
-                                                    RecipeCategory recipeCategory)
+        public static RecipeDto ConverToDto(this Recipe recipe)
         {
             return new RecipeDto
             {
@@ -42,8 +38,8 @@ namespace MyRecipes.Api.Extensions
                 Title = recipe.Title,
                 Description = recipe.Description,
                 ImageUrl = recipe.ImageUrl,
-                CategoryId = recipeCategory.Id,
-                Category = recipeCategory.Name
+                CategoryId = recipe.RecipeCategory.Id,
+                Category = recipe.RecipeCategory.Name
             };
         }
         

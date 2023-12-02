@@ -29,7 +29,9 @@ namespace MyRecipes.Api.Repositories
 
         public async Task<Recipe> GetItem(int id)
         {
-            var recipe = await this.myRecipesDBContext.Recipes.FindAsync(id);
+            var recipe = await this.myRecipesDBContext.Recipes.
+                                    Include(r => r.RecipeCategory)
+                                    .SingleOrDefaultAsync(r => r.Id == id);
 
             return recipe;
         }
@@ -37,7 +39,8 @@ namespace MyRecipes.Api.Repositories
         public async Task<IEnumerable<Recipe>> GetItems()
         {
 
-            var recipes = await this.myRecipesDBContext.Recipes.ToListAsync();
+            var recipes = await this.myRecipesDBContext.Recipes
+                                    .Include(r => r.RecipeCategory).ToArrayAsync();
 
             return recipes;
             
@@ -45,9 +48,9 @@ namespace MyRecipes.Api.Repositories
 
         public async Task<IEnumerable<Recipe>> GetItemsByCategory(int id)
         {
-            var recipes = await (from recipe in myRecipesDBContext.Recipes
-                                 where recipe.CategoryId == id
-                                 select recipe).ToListAsync();
+            var recipes = await this.myRecipesDBContext.Recipes
+                                 .Include(r => r.RecipeCategory)
+                                 .Where(r => r.CategoryId == id).ToListAsync();
 
             return recipes;
         }

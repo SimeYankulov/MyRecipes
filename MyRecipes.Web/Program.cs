@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MyRecipes.Web;
@@ -14,5 +15,11 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https:/
 
 builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped<IRecipeBookService, RecipeBookService>();
+
+builder.Services.AddBlazoredLocalStorage();
+
+builder.Services.AddScoped<IManageRecipesLocalStorageService, ManageRecipesLocalStorageService>();
+builder.Services.AddScoped<IManageRecipeBookItemsLocalStorageService, ManageRecipeBookItemsLocalStorageService>();
+
 
 await builder.Build().RunAsync();

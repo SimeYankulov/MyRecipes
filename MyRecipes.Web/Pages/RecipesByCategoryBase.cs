@@ -10,6 +10,9 @@ namespace MyRecipes.Web.Pages
         public int CategoryId { get; set; }
         [Inject]
         public IRecipeService RecipeService { get; set; }
+        [Inject]
+        public IManageRecipesLocalStorageService manageRecipeLocalService { get; set; }
+
         public IEnumerable<RecipeDto> Recipes { get; set; }
 
         public string CategoryName { get; set; }
@@ -19,7 +22,8 @@ namespace MyRecipes.Web.Pages
         {
             try
             {
-                Recipes = await RecipeService.GetItemsByCategory(CategoryId);
+                Recipes = await GetRecipeCollectionByCategory(CategoryId);
+                    //RecipeService.GetItemsByCategory(CategoryId);
 
                 if(Recipes != null && Recipes.Count() > 0)
                 {
@@ -33,6 +37,20 @@ namespace MyRecipes.Web.Pages
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
+            }
+        }
+
+        private async Task<IEnumerable<RecipeDto>> GetRecipeCollectionByCategory(int categoryId)
+        {
+            var recipeCollection = await manageRecipeLocalService.GetCollection();
+
+            if(recipeCollection != null)
+            {
+                return recipeCollection.Where(p => p.CategoryId == categoryId);
+            }
+            else
+            {
+                return await RecipeService.GetItemsByCategory(categoryId);
             }
         }
     }

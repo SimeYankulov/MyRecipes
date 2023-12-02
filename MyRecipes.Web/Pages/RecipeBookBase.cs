@@ -8,17 +8,17 @@ namespace MyRecipes.Web.Pages
     public class RecipeBookBase:ComponentBase
     {
         [Inject]
-        public IRecipeBookService RecipeBookService { get; set; }
-        
+        public IRecipeBookService RecipeBookService { get; set; }  
+        [Inject]
+        public IManageRecipeBookItemsLocalStorageService manageRecipeBookItemsLocal { get; set; }
         public List<RecipeBookItemDto> items { get; set; }
         public String ErrorMessage { get; set; }
-
-
         protected override async Task OnInitializedAsync()
         {
             try
             {
-                items = await RecipeBookService.GetItems(HardCoded.UserId);
+                items =  await manageRecipeBookItemsLocal.GetCollectionn(); 
+                    //RecipeBookService.GetItems(HardCoded.UserId);
 
                 var count = items.Count();
 
@@ -44,11 +44,13 @@ namespace MyRecipes.Web.Pages
         {
             return items.FirstOrDefault(i => i.Id == id);
         }
-        private void RemoveItem(int id)
+        private async Task  RemoveItem(int id)
         {
             var item = GetRecipeBookItem(id);
 
             items.Remove(item);
+
+            await manageRecipeBookItemsLocal.SaveCollection(items);
 
         }
     }

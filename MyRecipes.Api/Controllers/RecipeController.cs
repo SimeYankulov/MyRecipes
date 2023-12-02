@@ -23,15 +23,14 @@ namespace MyRecipes.Api.Controllers
             try
             {
                 var recipes = await this.recipeRepository.GetItems();
-                var recipeCategories = await this.recipeRepository.GetCategories();
 
-                if (recipes == null || recipeCategories == null)
+                if (recipes == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    var recipeDtos = recipes.ConverToDto(recipeCategories);
+                    var recipeDtos = recipes.ConverToDto();
 
                     return Ok(recipeDtos);
                 }
@@ -58,9 +57,7 @@ namespace MyRecipes.Api.Controllers
                 }
                 else
                 {
-                    var recipeCategory = await this.recipeRepository.GetCategory(recipe.CategoryId);
-
-                    var recipeDto = recipe.ConverToDto(recipeCategory);
+                    var recipeDto = recipe.ConverToDto();
                         
                     return Ok(recipeDto);
                 }
@@ -100,10 +97,11 @@ namespace MyRecipes.Api.Controllers
             try
             {
                 var recipes = await recipeRepository.GetItemsByCategory(categoryId);
-                var recipeCategories = await recipeRepository.GetCategories();
-                var recipeDtos = recipes.ConverToDto(recipeCategories);
+ 
+                var recipeDtos = recipes.ConverToDto();
 
                 return Ok(recipeDtos);
+
             }
             catch (Exception)
             {
